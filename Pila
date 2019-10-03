@@ -1,0 +1,98 @@
+package ar.edu.uno.pila;
+
+public class Pila {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Pila p = new Pila();
+		p.poner("pepe");
+		p.poner("pepa");
+		p.poner("pepito");
+		p.sacar();
+		p.ver();//muestra pepa
+		System.out.println(p);
+	}
+
+	private Nodo tope;
+	
+	
+	public Pila() {
+		this.setTope(null);
+	}
+	
+	public boolean isVacia() {
+		return this.getTope()==null;
+	}
+	
+	public void poner(String dato) {
+		//Nodo aux = new Nodo(dato,this.getTope());
+		//this.setTope(aux);
+		//ES LO MISMO QUE PONER
+		this.setTope(new Nodo(dato,this.getTope()));
+	}
+	
+	public String ver() {//con esto veo que hay en tope
+		return this.getTope().getDato();
+	}
+	
+	public void sacar() {//elimina lo ultimo ingresado y tope apunta a lo ingresado anterior
+		this.setTope(getTope().getSig());
+	}
+	
+	//comienzo clase nodo
+	class Nodo{
+	
+	private String dato;
+	private Nodo sig;
+	
+	public Nodo(String dato, Nodo sig) {
+		this.setDato(dato);
+		this.setSig(sig);
+	}
+	
+	public Nodo(String dato) {
+		this(dato,null);
+	}
+
+	public String getDato() {
+		return dato;
+	}
+
+	public void setDato(String dato) {
+		this.dato = dato;
+	}
+
+	public Nodo getSig() {
+		return sig;
+	}
+
+	public void setSig(Nodo sig) {
+		this.sig = sig;
+	}
+	}//termina clase nodo
+	public Nodo getTope() {
+		return tope;
+	}
+	public void setTope(Nodo tope) {
+		this.tope = tope;
+	}
+
+	@Override
+	public String toString() {
+		String representacion ="";
+		Pila paux= new Pila();
+		while(!this.isVacia()) {
+			String dato = this.ver();
+			representacion +=" "+"["+dato+"]";
+			paux.poner(dato);
+			this.sacar();
+		}
+		while(!paux.isVacia()) {
+			this.poner(paux.ver());
+			paux.sacar();
+		}
+		return representacion;
+		//return "Pila [tope=" + tope + "]";
+	}
+	
+}
